@@ -5,7 +5,12 @@ node {
      stage('Build image') {
          app = docker.build("jeeunlee/flask-example")
      }
-   
+     stage('Push image') {
+         docker.withRegistry('https://registry.hub.docker.com', 'docker-hub') {
+             app.push("${env.BUILD_NUMBER}")
+             app.push("latest")
+         }
+     }
       
 }
  
